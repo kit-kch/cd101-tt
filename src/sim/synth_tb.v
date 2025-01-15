@@ -7,8 +7,10 @@ module synth_tb();
     localparam ADSR_S = 64;
     localparam ADSR_RI = 1;
     localparam PULSE_PERIOD_2 = 2;
+    localparam FILTER_A = 16'd6553; // * 2^-16
+    localparam FILTER_B = 16'hFFFF - FILTER_A; // * 2^-16
 
-    wire[15:0] data;
+    wire data;
     reg clk;
     reg rst, trig;
 
@@ -33,11 +35,13 @@ module synth_tb();
         .clk(clk),
         .rst(rst),
         .trig(trig),
-        .ai(ADSR_AI),
-        .di(ADSR_DI),
-        .s(ADSR_S),
-        .ri(ADSR_RI),
-        .count_max(PULSE_PERIOD_2),
+        .adsr_ai(ADSR_AI),
+        .adsr_di(ADSR_DI),
+        .adsr_s(ADSR_S),
+        .adsr_ri(ADSR_RI),
+        .osc_count(PULSE_PERIOD_2),
+        .filter_a(FILTER_A),
+        .filter_b(FILTER_B),
         .data(data)
     );
 
