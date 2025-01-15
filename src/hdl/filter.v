@@ -10,3 +10,23 @@
 
 `timescale 1ns/1ps
 
+// y[n]=y[n−1]+b(x[n]−y[n−1]).
+// y[n]=ay[n−1]+bx[n]
+
+module filter(
+    input clk,
+    input[15:0] din,
+    output reg[15:0] dout,
+    input[15:0] a,
+    input[15:0] b
+);
+    reg[31:0] m1;
+    reg[31:0] m2;
+
+    always @(posedge clk) begin
+        m1 = a * dout;
+        m2 = b * din;
+        dout <= m1[31:16] + m2[31:16];
+    end
+
+endmodule
