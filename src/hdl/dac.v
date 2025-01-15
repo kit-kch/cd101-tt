@@ -10,14 +10,14 @@
 
 module dac (
     input clk,
-    input[7:0] din,
+    input[15:0] din,
     output dout
 );
 
-    reg[8:0] accumulator;
+    reg[16:0] accumulator;
     always @(posedge clk) begin
-        accumulator <= accumulator[7:0] + din;
+        accumulator <= accumulator[15:0] + din;
     end
-    assign dout = accumulator[8];
+    assign dout = accumulator[16];
 
 endmodule
