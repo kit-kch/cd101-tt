@@ -32,7 +32,7 @@ module adsr(
                     end
                 end
                 STATE_A: begin
-                    if (trig == 0'b0) begin
+                    if (trig == 1'b0) begin
                         state <= STATE_R;
                     end else begin
                         // Overflow
@@ -46,7 +46,7 @@ module adsr(
                     
                 end
                 STATE_D: begin
-                    if (trig == 0'b0) begin
+                    if (trig == 1'b0) begin
                         state <= STATE_R;
                     end else begin
                         // Underflow
@@ -62,7 +62,7 @@ module adsr(
                     end;
                 end
                 STATE_S: begin
-                    if (trig == 0'b0) begin
+                    if (trig == 1'b0) begin
                         state <= STATE_R;
                     end
                 end

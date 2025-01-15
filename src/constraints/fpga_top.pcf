@@ -1,0 +1,11 @@
+# Pin Constraints for Upduino ICE40 Board
+
+# Clock
+set_io clk 21
+
+# LEDs
+set_io data 25
+
+# Buttons
+set_io rst 35
+set_io trig 36

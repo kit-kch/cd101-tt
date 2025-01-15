@@ -1,6 +1,11 @@
 `timescale 1ns/1ps
 
-module synth_tb();
+module fpga_top(
+    input clk,
+    input rst,
+    input trig,
+    output data
+);
 
     /*
      * ADSR: one cycle = 12.8ms. T = N * 12.8ms
@@ -22,28 +27,6 @@ module synth_tb();
      */
     localparam FILTER_A = 16'd17546; // * 2^-16
     localparam FILTER_B = 16'hFFFF - FILTER_A; // * 2^-16
-
-    wire data;
-    reg clk;
-    reg rst, trig;
-
-    initial begin
-        $dumpfile("out/sim/synth_tb.vcd");
-        $dumpvars();
-
-        clk = 0;
-        #1000000000 $finish;
-    end
-    always #5 clk = ~clk;
-
-    initial begin
-        rst = 1'b1;
-        trig = 1'b0;
-        #50 rst = 1'b0;
-        #100 trig = 1'b1;
-
-        #500000000 trig = 1'b0;
-    end
 
     synth uut (
         .clk(clk),

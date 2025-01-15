@@ -17,8 +17,8 @@ module clkdiv(
     assign q[0] = clk;
 
     assign clk_mod = q[0];
-    assign clk_sample = q[2];
-    assign clk_adsr = q[3];
+    assign clk_sample = q[9];
+    assign clk_adsr = q[18];
 
     genvar i;
     generate for (i = 0; i < 18; i = i+1) 
@@ -33,4 +33,4 @@ module clkdiv(
         end
     endgenerate;
 
-endmodule;
+endmodule

@@ -4,6 +4,7 @@
 `timescale 1ns/1ps
 
 module synth(
+    // 20480000 Hz
     input clk,
     input rst,
     input trig,
@@ -14,9 +15,18 @@ module synth(
     output data
 );
 
+    wire clk_mod, clk_sample, clk_adsr;
+    clkdiv clki (
+        .clk(clk),
+        .arst(rst),
+        .clk_mod(clk_mod), // 20480000 Hz
+        .clk_sample(clk_sample), // 20480000/512=40000Hz
+        .clk_adsr(clk_adsr) // 40000/512=78.125Hz
+    );
+
     wire[7:0] envelope;
     adsr adsri (
-        .clk(clk),
+        .clk(clk_mod),
         .ce(1),
         .rst(rst),
         .trig(trig),
@@ -29,7 +39,7 @@ module synth(
 
     wire[7:0] osc_data;
     oscillator osci (
-        .clk(clk),
+        .clk(clk_sample),
         .count_max(osc_count),
         .data(osc_data)
     );
@@ -39,7 +49,7 @@ module synth(
 
     wire[15:0] filt_data;
     filter filt (
-        .clk(clk),
+        .clk(clk_sample),
         .din(adsr_data),
         .dout(filt_data),
         .a(filter_a),
@@ -47,7 +57,7 @@ module synth(
     );
 
     dac daci (
-        .clk(clk),
+        .clk(clk_mod),
         .din(filt_data),
         .dout(data)
     );

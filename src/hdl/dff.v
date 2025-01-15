@@ -20,4 +20,4 @@ module dff(
     end
     assign qn = ~q;
 
-endmodule;
+endmodule
