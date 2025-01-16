@@ -1,7 +1,6 @@
 ####################################################################################################
 # Configuration
 ####################################################################################################
-BOARD = ice40_generic
 TOP_MODULE = fpga_top
 DESIGN = fpga_top
 APP_VERILOG = dff.v \
@@ -65,10 +64,10 @@ summary: $(RPTDIR)/$(DESIGN).pnr.json
 	@$(SCRIPT_SUMMARY) $<
 
 upload:
-	openFPGALoader -b $(BOARD) $(OBJDIR)/$(DESIGN).bin
+	iceprog -S $(OBJDIR)/$(DESIGN).bin
 
 upload-flash:
-	openFPGALoader -b $(BOARD) -f $(OBJDIR)/$(DESIGN).bin
+	iceprog $(OBJDIR)/$(DESIGN).bin
 
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
