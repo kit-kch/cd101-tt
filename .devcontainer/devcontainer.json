@@ -13,6 +13,9 @@
         "--userns=keep-id",
         "--security-opt=label=disable"
     ],
+    "mounts": [
+        "source=/dev,target=/dev,type=bind"
+    ],
     "customizations": {
         "vscode": {
             "extensions": [
