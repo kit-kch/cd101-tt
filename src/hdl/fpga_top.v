@@ -1,12 +1,12 @@
 `timescale 1ns/1ps
 
 module fpga_top(
-    input clk,
     input rst,
     input trig,
-    output data
+    output data,
+    output dbg_clk,
+    output dbg_rst
 );
-
     /*
      * ADSR: one cycle = 12.8ms. T = N * 12.8ms
      *                 => count = 256/N
@@ -27,6 +27,41 @@ module fpga_top(
      */
     localparam FILTER_A = 16'd17546; // * 2^-16
     localparam FILTER_B = 16'hFFFF - FILTER_A; // * 2^-16
+
+    wire clk_48;
+    wire clk;
+    wire pll_locked;
+
+    // Internal RC Oscillator at 48 MHz
+    SB_HFOSC rcosc (
+        .CLKHFPU(1'b1),
+        .CLKHFEN(1'b1),
+        .CLKHF(clk_48),
+        .TRIM0(),
+        .TRIM1(),
+        .TRIM2(),
+        .TRIM3(),
+        .TRIM4(),
+        .TRIM5(),
+        .TRIM6(),
+        .TRIM7(),
+        .TRIM8(),
+        .TRIM9()
+    );
+
+    fpga_pll pll (
+        .clock_in(clk_48),
+        .clock_out(clk),
+        .locked(pll_locked)
+    );
+
+    // Debug clock
+    reg[24:0] counter;
+    always @(posedge clk) begin
+        counter <= counter + 1;
+    end
+    assign dbg_clk = counter[24];
+    assign dbg_rst = rst;
 
     synth uut (
         .clk(clk),
