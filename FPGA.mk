@@ -1,6 +1,7 @@
 ####################################################################################################
 # Configuration
 ####################################################################################################
+BOARD = ice40_generic
 TOP_MODULE = fpga_top
 DESIGN = fpga_top
 APP_VERILOG = dff.v \
@@ -10,6 +11,7 @@ APP_VERILOG = dff.v \
 	oscillator.v \
 	adsr.v \
 	synth.v \
+	fpga_pll.v \
 	fpga_top.v
 
 NTHREADS ?= 4
@@ -63,10 +65,10 @@ summary: $(RPTDIR)/$(DESIGN).pnr.json
 	@$(SCRIPT_SUMMARY) $<
 
 upload:
-	openFPGALoader -b $(BOARD) $(OBJDIR)/$(DESIGN).fs
+	openFPGALoader -b $(BOARD) $(OBJDIR)/$(DESIGN).bin
 
 upload-flash:
-	openFPGALoader -b $(BOARD) -f $(OBJDIR)/$(DESIGN).fs
+	openFPGALoader -b $(BOARD) -f $(OBJDIR)/$(DESIGN).bin
 
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
@@ -79,7 +81,7 @@ $(RPTDIR):
 # Automatic rule patterns: Create output(s) from input(s)
 ####################################################################################################
 
-# Synthesis. TODO: Support multiple source sets / targets?
+# Synthesis
 $(OBJDIR)/%.syn.json: $(SYN_VERILOG_PATHS) | $(OBJDIR) $(RPTDIR)
 	yosys -p "read_verilog -D ICE40_HX -lib -specify +/ice40/cells_sim.v; read_verilog $(SYN_VERILOG_PATHS); synth_ice40 -top $(TOP_MODULE) -json $@; tee -o $(RPTDIR)/$*.syn.res.rpt stat" \
 	  $(QUIET_FLAG) -l $(RPTDIR)/$*.syn.log --detailed-timing
