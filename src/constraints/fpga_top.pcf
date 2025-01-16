@@ -1,11 +1,13 @@
-# Pin Constraints for Upduino ICE40 Board
+# Pin Constraints for Upduino 3.1 ICE40 Board
+# Refer to https://github.com/tinyvision-ai-inc/UPduino-v3.0/blob/master/docs/source/features/specs.rst
 
-# Clock
-set_io clk 21
+# Data Out
+set_io data 12
 
-# LEDs
-set_io data 25
+# Debug LED
+set_io dbg_clk 40
+set_io dbg_rst 41
 
 # Buttons
-set_io rst 35
-set_io trig 36
+set_io rst 21
+set_io trig 13
