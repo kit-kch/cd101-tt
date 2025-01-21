@@ -3,29 +3,12 @@ module fpga_top(
     input trig,
     output data,
     output dbg_clk,
-    output dbg_rst
+    output dbg_rst,
+    // SPI
+    input spi_clk,
+    input spi_mosi,
+    input spi_nss
 );
-    /*
-     * ADSR: one cycle = 12.8ms. T = N * 12.8ms
-     *                 => count = 256/N
-     *                 => 50 ms => N=4 => ai = 256/4= 64
-     * 100ms decay: but SUSTAIN at 128 => 128/8 = 16
-     * release: 1s => 128/80=2
-     */
-    localparam ADSR_AI = 64;
-    localparam ADSR_DI = 16;
-    localparam ADSR_S = 128;
-    localparam ADSR_RI = 2;
-    localparam PULSE_PERIOD_2 = 66; // 303 Hz
-    /* https://dsp.stackexchange.com/a/54088 (3)
-     * a = -y + sqrt(y^2 + 2y)
-     * y = 1-cos(wc)
-     * => fc = 1000 => a = 0.26773053164
-     * *2^16 => 17546
-     */
-    localparam FILTER_A = 16'd17546; // * 2^-16
-    localparam FILTER_B = 16'hFFFF - FILTER_A; // * 2^-16
-
     wire clk_48;
     wire clk;
     wire pll_locked;
@@ -62,18 +45,14 @@ module fpga_top(
     // LED is low active
     assign dbg_rst = ~rst;
 
-    synth uut (
+    synth_top stop (
         .clk(clk),
         .rst(rst),
         .trig(trig),
-        .adsr_ai(ADSR_AI),
-        .adsr_di(ADSR_DI),
-        .adsr_s(ADSR_S),
-        .adsr_ri(ADSR_RI),
-        .osc_count(PULSE_PERIOD_2),
-        .filter_a(FILTER_A),
-        .filter_b(FILTER_B),
-        .data(data)
+        .data(data),
+        .spi_clk(spi_clk),
+        .spi_mosi(spi_mosi),
+        .spi_nss(spi_nss)
     );
 
 endmodule

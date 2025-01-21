@@ -10,6 +10,8 @@ APP_VERILOG = dff.v \
 	oscillator.v \
 	adsr.v \
 	synth.v \
+	spi.v \
+	synth_top.v \
 	fpga_pll.v \
 	fpga_top.v
 

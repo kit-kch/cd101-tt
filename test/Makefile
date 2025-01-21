@@ -5,7 +5,16 @@
 SIM ?= icarus
 TOPLEVEL_LANG ?= verilog
 SRC_DIR = $(PWD)/../src
-PROJECT_SOURCES = hdl/dff.v hdl/clkdiv.v hdl/oscillator.v hdl/adsr.v hdl/dac.v hdl/filter.v hdl/synth.v hdl/tt_top.v
+PROJECT_SOURCES = hdl/dff.v \
+	hdl/clkdiv.v \
+	hdl/oscillator.v \
+	hdl/adsr.v \
+	hdl/dac.v \
+	hdl/filter.v \
+	hdl/synth.v \
+	hdl/spi.v \
+	hdl/synth_top.v \
+	hdl/tt_top.v
 
 ifneq ($(GATES),yes)
 

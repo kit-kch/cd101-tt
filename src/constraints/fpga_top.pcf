@@ -11,3 +11,11 @@ set_io dbg_rst 41
 # Buttons
 set_io rst 21
 set_io trig 13
+
+# SPI
+# FT_SCK
+set_io spi_clk 15
+# FPGA_SO
+set_io spi_mosi 14
+# Reuse FPGA_SI
+set_io spi_nss 17
