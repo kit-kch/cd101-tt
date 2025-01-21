@@ -7,7 +7,7 @@ module oscillator_tb();
     reg clk;
 
     initial begin
-        $dumpfile("out/sim/oscillator_tb.vcd");
+        $dumpfile("build/sim/oscillator_tb.vcd");
         $dumpvars();
 
         clk = 0;

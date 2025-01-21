@@ -7,7 +7,7 @@ module dac_tb();
     wire dout;
 
     initial begin
-        $dumpfile("out/sim/dac_tb.vcd");
+        $dumpfile("build/sim/dac_tb.vcd");
         $dumpvars();
 
         clk = 0;

@@ -28,7 +28,7 @@ module synth_tb();
     reg rst, trig;
 
     initial begin
-        $dumpfile("out/sim/synth_tb.vcd");
+        $dumpfile("build/sim/synth_tb.vcd");
         $dumpvars();
 
         clk = 0;

@@ -9,7 +9,7 @@ module filter_tb();
     localparam B = 16'hFFFF - A; // * 2^-16
 
     initial begin
-        $dumpfile("out/sim/filter_tb.vcd");
+        $dumpfile("build/sim/filter_tb.vcd");
         $dumpvars();
 
         clk = 0;

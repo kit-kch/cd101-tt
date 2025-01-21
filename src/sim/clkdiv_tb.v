@@ -6,7 +6,7 @@ module oscillator_tb();
     reg clk, arst;
 
     initial begin
-        $dumpfile("out/sim/clkdiv_tb.vcd");
+        $dumpfile("build/sim/clkdiv_tb.vcd");
         $dumpvars();
 
         clk = 0;

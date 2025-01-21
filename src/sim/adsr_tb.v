@@ -12,7 +12,7 @@ module adsr_tb();
     reg rst, trig;
 
     initial begin
-        $dumpfile("out/sim/adsr_tb.vcd");
+        $dumpfile("build/sim/adsr_tb.vcd");
         $dumpvars();
 
         clk = 0;

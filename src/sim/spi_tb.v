@@ -5,7 +5,7 @@ module spi_tb();
     reg clk, nss, mosi;
 
     initial begin
-        $dumpfile("out/sim/spi_tb.vcd");
+        $dumpfile("build/sim/spi_tb.vcd");
         $dumpvars();
 
         clk = 0;
