@@ -26,6 +26,8 @@ module adsr_tb();
         #50 rst = 1'b0;
         #50 trig = 1'b1;
         #4000 trig = 1'b0;
+        #800 trig = 1'b1;
+        #500 trig = 1'b0;
     end
 
     adsr uut (
