@@ -26,7 +26,7 @@ module synth(
 
     wire[7:0] envelope;
     adsr adsri (
-        .clk(clk_mod),
+        .clk(clk_adsr),
         .ce(1),
         .rst(rst),
         .trig(trig),
