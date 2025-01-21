@@ -61,7 +61,8 @@ module fpga_top(
         counter <= counter + 1;
     end
     assign dbg_clk = counter[24];
-    assign dbg_rst = rst;
+    // LED is low active
+    assign dbg_rst = ~rst;
 
     synth uut (
         .clk(clk),
