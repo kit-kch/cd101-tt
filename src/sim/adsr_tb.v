@@ -3,9 +3,9 @@
 module adsr_tb();
 
     localparam ADSR_AI = 5;
-    localparam ADSR_DI = 10;
-    localparam ADSR_S = 64;
-    localparam ADSR_RI = 1;
+    localparam ADSR_DI = -10;
+    localparam ADSR_S = 65;
+    localparam ADSR_RI = -1;
 
     wire[7:0] envelope;
     reg clk;
