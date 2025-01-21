@@ -6,7 +6,6 @@
  *           https://www.beis.de/Elektronik/DeltaSigma/DeltaSigma_D.html
  * 1024x Oversampling is then ~14 ENOB
  */
-`timescale 1ns/1ps
 
 module dac (
     input clk,

@@ -8,8 +8,6 @@
  * "Digital Filters For Music Synthesis": One Pole Filter, section 3.1.1, p5
  */
 
-`timescale 1ns/1ps
-
 // y[n]=y[n−1]+b(x[n]−y[n−1]).
 // y[n]=ay[n−1]+bx[n]
 

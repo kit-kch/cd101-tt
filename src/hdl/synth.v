@@ -1,7 +1,6 @@
 /*
  * https://synthesizer-cookbook.com/SynCookbook.pdf
  */
-`timescale 1ns/1ps
 
 module synth(
     // 20480000 Hz
@@ -27,7 +26,6 @@ module synth(
     wire[7:0] envelope;
     adsr adsri (
         .clk(clk_adsr),
-        .ce(1),
         .rst(rst),
         .trig(trig),
         .ai(adsr_ai),

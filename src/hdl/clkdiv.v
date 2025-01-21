@@ -2,7 +2,6 @@
  * Async clock divider
  * https://digilent.com/reference/learn/programmable-logic/tutorials/use-flip-flops-to-build-a-clock-divider/start
  */
-`timescale 1ns/1ps
 
 module clkdiv(
     input clk,

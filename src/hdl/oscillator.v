@@ -1,7 +1,6 @@
 /*
  * Pulse waveform generator
  */
-`timescale 1ns/1ps
 
 module oscillator(
     input clk,

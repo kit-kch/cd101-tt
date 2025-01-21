@@ -1,5 +1,3 @@
-`timescale 1ns/1ps
-
 module fpga_top(
     input rst,
     input trig,
