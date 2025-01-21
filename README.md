@@ -1,20 +1,41 @@
-https://github.com/YosysHQ/oss-cad-suite-build
+![](../../workflows/gds/badge.svg) ![](../../workflows/docs/badge.svg) ![](../../workflows/test/badge.svg) ![](../../workflows/fpga/badge.svg)
 
+# Tiny Tapeout Verilog Project Template
 
-export TOP=adsr
-yosys -p "read_verilog -D ICE40_HX -lib -specify +/ice40/cells_sim.v; read_verilog src/hdl/dff.v src/hdl/clkdiv.v src/hdl/dac.v src/hdl/filter.v src/hdl/oscillator.v src/hdl/adsr.v src/hdl/synth.v src/hdl/fpga_top.v; synth_ice40 -top ${TOP} -json build/${TOP}.syn.json; tee -o build/rpt/${TOP}.syn.res.rpt stat" -q -l build/rpt/${TOP}.syn.log --detailed-timing
+- [Read the documentation for project](docs/info.md)
 
-export TOP=clkdiv
-yosys -p "read_verilog -D ICE40_HX -lib -specify +/ice40/cells_sim.v; read_verilog src/hdl/dff.v src/hdl/clkdiv.v src/hdl/dac.v src/hdl/filter.v src/hdl/oscillator.v src/hdl/adsr.v src/hdl/synth.v src/hdl/fpga_top.v; synth_ice40 -top ${TOP} -json build/${TOP}.syn.json; tee -o build/rpt/${TOP}.syn.res.rpt stat" -q -l build/rpt/${TOP}.syn.log --detailed-timing
+## What is Tiny Tapeout?
 
-export TOP=dac
-yosys -p "read_verilog -D ICE40_HX -lib -specify +/ice40/cells_sim.v; read_verilog src/hdl/dff.v src/hdl/clkdiv.v src/hdl/dac.v src/hdl/filter.v src/hdl/oscillator.v src/hdl/adsr.v src/hdl/synth.v src/hdl/fpga_top.v; synth_ice40 -top ${TOP} -json build/${TOP}.syn.json; tee -o build/rpt/${TOP}.syn.res.rpt stat" -q -l build/rpt/${TOP}.syn.log --detailed-timing
+Tiny Tapeout is an educational project that aims to make it easier and cheaper than ever to get your digital and analog designs manufactured on a real chip.
 
-export TOP=dff
-yosys -p "read_verilog -D ICE40_HX -lib -specify +/ice40/cells_sim.v; read_verilog src/hdl/dff.v src/hdl/clkdiv.v src/hdl/dac.v src/hdl/filter.v src/hdl/oscillator.v src/hdl/adsr.v src/hdl/synth.v src/hdl/fpga_top.v; synth_ice40 -top ${TOP} -json build/${TOP}.syn.json; tee -o build/rpt/${TOP}.syn.res.rpt stat" -q -l build/rpt/${TOP}.syn.log --detailed-timing
+To learn more and get started, visit https://tinytapeout.com.
 
-export TOP=filter
-yosys -p "read_verilog -D ICE40_HX -lib -specify +/ice40/cells_sim.v; read_verilog src/hdl/dff.v src/hdl/clkdiv.v src/hdl/dac.v src/hdl/filter.v src/hdl/oscillator.v src/hdl/adsr.v src/hdl/synth.v src/hdl/fpga_top.v; synth_ice40 -top ${TOP} -json build/${TOP}.syn.json; tee -o build/rpt/${TOP}.syn.res.rpt stat" -q -l build/rpt/${TOP}.syn.log --detailed-timing
+## Set up your Verilog project
 
-export TOP=oscillator
-yosys -p "read_verilog -D ICE40_HX -lib -specify +/ice40/cells_sim.v; read_verilog src/hdl/dff.v src/hdl/clkdiv.v src/hdl/dac.v src/hdl/filter.v src/hdl/oscillator.v src/hdl/adsr.v src/hdl/synth.v src/hdl/fpga_top.v; synth_ice40 -top ${TOP} -json build/${TOP}.syn.json; tee -o build/rpt/${TOP}.syn.res.rpt stat" -q -l build/rpt/${TOP}.syn.log --detailed-timing
+1. Add your Verilog files to the `src` folder.
+2. Edit the [info.yaml](info.yaml) and update information about your project, paying special attention to the `source_files` and `top_module` properties. If you are upgrading an existing Tiny Tapeout project, check out our [online info.yaml migration tool](https://tinytapeout.github.io/tt-yaml-upgrade-tool/).
+3. Edit [docs/info.md](docs/info.md) and add a description of your project.
+4. Adapt the testbench to your design. See [test/README.md](test/README.md) for more information.
+
+The GitHub action will automatically build the ASIC files using [OpenLane](https://www.zerotoasiccourse.com/terminology/openlane/).
+
+## Enable GitHub actions to build the results page
+
+- [Enabling GitHub Pages](https://tinytapeout.com/faq/#my-github-action-is-failing-on-the-pages-part)
+
+## Resources
+
+- [FAQ](https://tinytapeout.com/faq/)
+- [Digital design lessons](https://tinytapeout.com/digital_design/)
+- [Learn how semiconductors work](https://tinytapeout.com/siliwiz/)
+- [Join the community](https://tinytapeout.com/discord)
+- [Build your design locally](https://www.tinytapeout.com/guides/local-hardening/)
+
+## What next?
+
+- [Submit your design to the next shuttle](https://app.tinytapeout.com/).
+- Edit [this README](README.md) and explain your design, how it works, and how to test it.
+- Share your project on your social network of choice:
+  - LinkedIn [#tinytapeout](https://www.linkedin.com/search/results/content/?keywords=%23tinytapeout) [@TinyTapeout](https://www.linkedin.com/company/100708654/)
+  - Mastodon [#tinytapeout](https://chaos.social/tags/tinytapeout) [@matthewvenn](https://chaos.social/@matthewvenn)
+  - X (formerly Twitter) [#tinytapeout](https://twitter.com/hashtag/tinytapeout) [@tinytapeout](https://twitter.com/tinytapeout)
