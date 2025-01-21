@@ -6,10 +6,9 @@
 
 module adsr(
     input clk,
-    input ce,
     input rst,
     input trig,
-    input[7:0] ai, di, s , ri,
+    input[7:0] ai, di, s, ri,
     output reg[7:0] envelope
 );
     reg[2:0] state;
@@ -20,11 +19,21 @@ module adsr(
     localparam STATE_S = 3'd3;
     localparam STATE_R = 3'd4;
 
+    reg[8:0] next_sum;
+    always @(state, envelope) begin
+        if (state == STATE_A) begin
+            next_sum = envelope + ai;
+        end else begin
+            // TODO: Can I write this as +?
+            next_sum = envelope - ri;
+        end
+    end
+
     always @(posedge clk, posedge rst) begin
         if (rst == 1'b1) begin
             state <= STATE_IDLE;
             envelope <= 0;
-        end else if (ce == 1'b1) begin
+        end else begin
             case (state)
                 STATE_IDLE: begin
                     if (trig == 1'b1) begin
@@ -35,15 +44,13 @@ module adsr(
                     if (trig == 1'b0) begin
                         state <= STATE_R;
                     end else begin
-                        // Overflow
-                        if ((envelope + ai) < ai) begin
+                        if (next_sum[8] == 1'b1) begin
                             envelope <= 8'hFF;
                             state <= STATE_D;
                         end else begin
-                            envelope <= envelope + ai;
-                        end
+                            envelope <= next_sum[7:0];
+                        end;
                     end;
-                    
                 end
                 STATE_D: begin
                     if (trig == 1'b0) begin
@@ -67,18 +74,16 @@ module adsr(
                     end
                 end
                 STATE_R: begin
-                    // Underflow
-                    if ((envelope - ri) > envelope) begin
-                        state <= STATE_IDLE;
+                    if (next_sum[8] == 1'b1) begin
                         envelope <= 8'h00;
+                        state <= STATE_IDLE;
                     end else begin
-                        envelope <= envelope - ri;
-                    end
+                        envelope <= next_sum[7:0];
+                    end;
                 end
                 default: begin
                 end
             endcase
         end
     end
-
 endmodule

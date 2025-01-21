@@ -20,13 +20,6 @@ module adsr_tb();
     end
     always #5 clk = ~clk;
 
-    reg[1:0] counter;
-    wire ce;
-    assign ce = counter == 2'b11;
-    always @(posedge clk) begin
-        counter <= counter + 1;
-    end
-
     initial begin
         rst = 1'b1;
         trig = 1'b0;
@@ -37,7 +30,6 @@ module adsr_tb();
 
     adsr uut (
         .clk(clk),
-        .ce(ce),
         .rst(rst),
         .trig(trig),
         .ai(ADSR_AI),
