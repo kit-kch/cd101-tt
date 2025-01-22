@@ -14,13 +14,14 @@ module synth(
     output data
 );
 
-    wire clk_mod, clk_sample, clk_adsr;
+    wire clk_mod, clk_sample, clk_adsr, clk_filt;
     clkdiv clki (
         .clk(clk),
         .arst(rst),
         .clk_mod(clk_mod), // 20480000 Hz
         .clk_sample(clk_sample), // 20480000/512=40000Hz
-        .clk_adsr(clk_adsr) // 40000/512=78.125Hz
+        .clk_adsr(clk_adsr), // 40000/512=78.125Hz
+        .clk_filt(clk_filt)
     );
 
     wire[7:0] envelope;
@@ -47,7 +48,8 @@ module synth(
 
     wire[15:0] filt_data;
     filter filt (
-        .clk(clk_sample),
+        .clk(clk_filt),
+        .clk_slow(clk_sample),
         .din(adsr_data),
         .dout(filt_data),
         .a(filter_a),

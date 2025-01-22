@@ -10,6 +10,7 @@ PROJECT_SOURCES = hdl/dff.v \
 	hdl/oscillator.v \
 	hdl/adsr.v \
 	hdl/dac.v \
+	hdl/shift_mult16 \
 	hdl/filter.v \
 	hdl/synth.v \
 	hdl/spi.v \
