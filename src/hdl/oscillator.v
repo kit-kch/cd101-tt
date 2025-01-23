@@ -4,6 +4,7 @@
 
 module oscillator(
     input clk,
+    input rstn,
     input[11:0] count_max,
     output reg[7:0] data
 );
@@ -11,10 +12,12 @@ module oscillator(
     reg[11:0] counter;
     reg data_buf;
 
-    initial data_buf = 1;
-
     always @(posedge clk) begin
         counter <= counter + 1;
+        if (rstn == 0) begin
+            counter <= 0;
+            data_buf <= 0;
+        end
         if (counter == count_max) begin
             counter <= 0;
             data_buf <= !data_buf;

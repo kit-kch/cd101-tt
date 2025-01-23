@@ -41,6 +41,7 @@ module synth(
     wire[7:0] osc_data;
     oscillator osci (
         .clk(clk_sample),
+        .rstn(!rst),
         .count_max(osc_count),
         .data(osc_data)
     );
