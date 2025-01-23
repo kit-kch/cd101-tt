@@ -6,6 +6,8 @@ DESIGN = fpga_top
 APP_VERILOG = dff.v \
 	clkdiv.v \
 	dac.v \
+	shift_mult8.v \
+	shift_mult16.v \
 	filter.v \
 	oscillator.v \
 	adsr.v \

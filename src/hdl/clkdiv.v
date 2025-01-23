@@ -9,7 +9,7 @@ module clkdiv(
     output clk_mod,
     output clk_sample,
     output clk_adsr,
-    output clk_filt
+    output clk_mult
 );
     wire[18:0] q;
     wire[18:0] qn;
@@ -19,7 +19,7 @@ module clkdiv(
     assign clk_mod = q[0];
     assign clk_sample = q[9];
     assign clk_adsr = q[18];
-    assign clk_filt = q[4];
+    assign clk_mult = q[5];
 
     genvar i;
     generate for (i = 0; i < 18; i = i+1) 

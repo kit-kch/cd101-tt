@@ -16,8 +16,8 @@ module filter(
     input clk_slow,
     input[15:0] din,
     output[15:0] dout,
-    input[15:0] a,
-    input[15:0] b
+    input[7:0] a,
+    input[7:0] b
 );
     wire[15:0] m1o;
     wire[15:0] m2o;
@@ -25,16 +25,16 @@ module filter(
     shift_mult16 m1(
         .clk(clk),
         .clk_slow(clk_slow),
-        .a(a),
-        .b(dout),
+        .a(dout),
+        .b(a),
         .y(m1o)
     );
 
     shift_mult16 m2(
         .clk(clk),
         .clk_slow(clk_slow),
-        .a(b),
-        .b(din),
+        .a(din),
+        .b(a),
         .y(m2o)
     );
 

@@ -13,7 +13,7 @@ module synth_top(
 
     wire[7:0] adsr_ai, adsr_di, adsr_s, adsr_ri;
     wire[31:0] osc_count;
-    wire[15:0] filter_a, filter_b;
+    wire[7:0] filter_a, filter_b;
     wire spi_rst, spi_trig;
 
     synth syn (
@@ -30,7 +30,7 @@ module synth_top(
         .data(data)
     );
 
-    spi uut (
+    spi ctrl (
         .clk(spi_clk),
         .mosi(spi_mosi),
         .nss(spi_nss),
