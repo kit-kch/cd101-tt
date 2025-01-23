@@ -4,11 +4,11 @@
 
 module oscillator(
     input clk,
-    input[31:0] count_max,
+    input[11:0] count_max,
     output reg[7:0] data
 );
 
-    reg[31:0] counter;
+    reg[11:0] counter;
     reg data_buf;
 
     initial data_buf = 1;
@@ -17,7 +17,7 @@ module oscillator(
         counter <= counter + 1;
         if (counter == count_max) begin
             counter <= 0;
-            data_buf <= ! data_buf;
+            data_buf <= !data_buf;
         end
     end
 

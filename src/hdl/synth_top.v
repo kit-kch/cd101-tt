@@ -12,7 +12,7 @@ module synth_top(
 );
 
     wire[7:0] adsr_ai, adsr_di, adsr_s, adsr_ri;
-    wire[31:0] osc_count;
+    wire[11:0] osc_count;
     wire[7:0] filter_a, filter_b;
     wire spi_rst, spi_trig;
 

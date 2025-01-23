@@ -9,7 +9,7 @@ module synth(
     input trig,
     // Configuration
     input[7:0] adsr_ai, adsr_di, adsr_s, adsr_ri,
-    input[31:0] osc_count,
+    input[11:0] osc_count,
     input[7:0] filter_a, filter_b,
     output data
 );
