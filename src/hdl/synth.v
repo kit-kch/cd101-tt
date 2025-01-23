@@ -71,15 +71,9 @@ module synth(
         .b(filter_b)
     );
 
-    // Data needs to be constant for whole cycle when feeding into dac
-    reg[15:0] filt_data_reg;
-    always @(posedge clk_sample) begin
-        filt_data_reg <= filt_data;
-    end
-
     dac daci (
         .clk(clk_mod),
-        .din(filt_data_reg),
+        .din(filt_data),
         .dout(data)
     );
 

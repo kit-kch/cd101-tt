@@ -22,10 +22,16 @@ module filter(
     wire[15:0] m1o;
     wire[15:0] m2o;
 
+    reg[15:0] dout_reg;
+    always @(posedge clk_slow) begin
+        dout_reg <= m1o + m2o;
+    end
+    assign dout = dout_reg;
+
     shift_mult16 m1(
         .clk(clk),
         .clk_slow(clk_slow),
-        .a(dout),
+        .a(dout_reg),
         .b(a),
         .y(m1o)
     );
@@ -34,10 +40,8 @@ module filter(
         .clk(clk),
         .clk_slow(clk_slow),
         .a(din),
-        .b(a),
+        .b(b),
         .y(m2o)
     );
-
-    assign dout = m1o + m2o;
 
 endmodule
