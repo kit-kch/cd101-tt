@@ -16,9 +16,8 @@ module tt_um_example (
     input  wire       rst_n     // reset_n - low to reset
 );
 
-    wire rst, trig, data;
+    wire trig, data;
     wire spi_clk, spi_mosi, spi_nss;
-    assign rst = ~rst_n;
     assign trig = ui_in[0];
     assign spi_clk = ui_in[1];
     assign spi_mosi = ui_in[2];
@@ -35,7 +34,7 @@ module tt_um_example (
 
     synth_top stop (
         .clk(clk),
-        .rst(rst),
+        .rstn(rst_n),
         .trig(trig),
         .data(data),
         .spi_clk(spi_clk),

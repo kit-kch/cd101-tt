@@ -1,6 +1,7 @@
 
 module spi (
     input clk,
+    input rstn,
     input mosi,
     input nss,
 

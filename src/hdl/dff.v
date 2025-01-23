@@ -4,14 +4,14 @@
 
 module dff(
     input clk,
-    input arst,
+    input rstn,
     input d,
     output reg q,
     output qn
 );
 
-    always @(posedge clk or posedge arst) begin
-        if (arst == 1'b1) begin
+    always @(posedge clk) begin
+        if (rstn == 1'b0) begin
             q <= 1'b1;
         end else begin
             q <= d;

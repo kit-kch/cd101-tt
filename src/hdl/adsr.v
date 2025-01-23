@@ -5,7 +5,7 @@
 
 module adsr(
     input clk,
-    input rst,
+    input rstn,
     input trig,
     input[7:0] ai, di, s, ri,
     output reg[7:0] envelope
@@ -31,8 +31,8 @@ module adsr(
         endcase
     end
 
-    always @(posedge clk, posedge rst) begin
-        if (rst == 1'b1) begin
+    always @(posedge clk) begin
+        if (rstn == 1'b0) begin
             state <= STATE_IDLE;
             envelope <= 0;
         end else begin

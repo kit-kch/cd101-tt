@@ -2,7 +2,7 @@
 module synth_top(
     // 20480000 Hz
     input clk,
-    input rst,
+    input rstn,
     input trig,
     output data,
     // SPI
@@ -18,7 +18,7 @@ module synth_top(
 
     synth syn (
         .clk(clk),
-        .rst(rst),
+        .rstn(rstn),
         .trig(trig),
         .adsr_ai(adsr_ai),
         .adsr_di(adsr_di),
@@ -32,6 +32,7 @@ module synth_top(
 
     spi ctrl (
         .clk(spi_clk),
+        .rstn(rstn),
         .mosi(spi_mosi),
         .nss(spi_nss),
 

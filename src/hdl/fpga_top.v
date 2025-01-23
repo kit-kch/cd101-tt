@@ -42,12 +42,13 @@ module fpga_top(
         counter <= counter + 1;
     end
     assign dbg_clk = counter[24];
+    wire rstn = ~rst;
     // LED is low active
-    assign dbg_rst = ~rst;
+    assign dbg_rst = rstn;
 
     synth_top stop (
         .clk(clk),
-        .rst(rst),
+        .rstn(rstn),
         .trig(trig),
         .data(data),
         .spi_clk(spi_clk),

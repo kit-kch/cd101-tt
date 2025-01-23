@@ -9,7 +9,7 @@ module adsr_tb();
 
     wire[7:0] envelope;
     reg clk;
-    reg rst, trig;
+    reg rstn, trig;
 
     initial begin
         $dumpfile("build/sim/adsr_tb.vcd");
@@ -21,9 +21,9 @@ module adsr_tb();
     always #5 clk = ~clk;
 
     initial begin
-        rst = 1'b1;
+        rstn = 1'b0;
         trig = 1'b0;
-        #50 rst = 1'b0;
+        #50 rstn = 1'b1;
         #50 trig = 1'b1;
         #4000 trig = 1'b0;
         #800 trig = 1'b1;
@@ -32,7 +32,7 @@ module adsr_tb();
 
     adsr uut (
         .clk(clk),
-        .rst(rst),
+        .rstn(rstn),
         .trig(trig),
         .ai(ADSR_AI),
         .di(ADSR_DI),

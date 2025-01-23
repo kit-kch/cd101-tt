@@ -5,7 +5,7 @@
 
 module clkdiv(
     input clk,
-    input arst,
+    input rstn,
     output clk_mod,
     output clk_sample,
     output clk_adsr,
@@ -26,7 +26,7 @@ module clkdiv(
         begin: gen
             dff inst (
                 .clk(q[i]),
-                .arst(arst),
+                .rstn(rstn),
                 .d(qn[i+1]),
                 .q(q[i+1]),
                 .qn(qn[i+1])

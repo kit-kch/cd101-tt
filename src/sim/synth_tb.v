@@ -20,12 +20,12 @@ module synth_tb();
      * => fc = 1000 => a = 0.26773053164
      * *2^16 => 17546
      */
-    localparam FILTER_A = 16'd17546; // * 2^-16
-    localparam FILTER_B = 16'hFFFF - FILTER_A; // * 2^-16
+    localparam FILTER_A = 8'd101; // * 2^-8
+    localparam FILTER_B = 8'hFF - FILTER_A; // * 2^-8
 
     wire data;
     reg clk;
-    reg rst, trig;
+    reg rstn, trig;
 
     initial begin
         $dumpfile("build/sim/synth_tb.vcd");
@@ -37,9 +37,9 @@ module synth_tb();
     always #5 clk = ~clk;
 
     initial begin
-        rst = 1'b1;
+        rstn = 1'b0;
         trig = 1'b0;
-        #50 rst = 1'b0;
+        #50 rstn = 1'b1;
         #100 trig = 1'b1;
 
         #500000000 trig = 1'b0;
@@ -47,7 +47,7 @@ module synth_tb();
 
     synth uut (
         .clk(clk),
-        .rst(rst),
+        .rstn(rstn),
         .trig(trig),
         .adsr_ai(ADSR_AI),
         .adsr_di(ADSR_DI),

@@ -2,8 +2,8 @@
 
 module oscillator_tb();
 
-    wire clk_mod, clk_sample, clk_adsr;
-    reg clk, arst;
+    wire clk_mod, clk_sample, clk_adsr, clk_mult;
+    reg clk, rstn;
 
     initial begin
         $dumpfile("build/sim/clkdiv_tb.vcd");
@@ -15,16 +15,17 @@ module oscillator_tb();
     always #5 clk = ~clk;
 
     initial begin
-        arst = 1'b1;
-        #50 arst = 1'b0;
+        rstn = 1'b0;
+        #50 rstn = 1'b1;
     end
 
     clkdiv uut (
         .clk(clk),
-        .arst(arst),
+        .rstn(rstn),
         .clk_mod(clk_mod),
         .clk_sample(clk_sample),
-        .clk_adsr(clk_adsr)
+        .clk_adsr(clk_adsr),
+        .clk_mult(clk_mult)
     );
 
 endmodule
