@@ -71,8 +71,5 @@
   "MAGIC_DEF_LABELS": 0,
 
   "//": "Only export pin area in LEF (without any connected nets)",
-  "MAGIC_WRITE_LEF_PINONLY": 1,
-
-  "//": "https://github.com/The-OpenROAD-Project/OpenLane/issues/1070",
-  "SYNTH_EXTRA_MAPPING_FILE": "src/yosys_map.v"
+  "MAGIC_WRITE_LEF_PINONLY": 1
 }
