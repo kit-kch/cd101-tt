@@ -32,7 +32,7 @@ module synth_top(
 
     spi ctrl (
         .clk(spi_clk),
-        .rstn(rstn),
+        .arstn(rstn),
         .mosi(spi_mosi),
         .nss(spi_nss),
 

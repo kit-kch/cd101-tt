@@ -1,7 +1,7 @@
 
 module spi (
     input clk,
-    input rstn,
+    input arstn,
     input mosi,
     input nss,
 
@@ -18,8 +18,10 @@ module spi (
     assign trig = 1'b0;
     
     reg[59:0] cfg;
-    always @(posedge clk) begin
-        if (nss == 1'b0) begin
+    always @(posedge clk or negedge arstn) begin
+        if (arstn == 1'b0) begin
+            cfg <= 0;
+        end else if (nss == 1'b0) begin
             cfg <= {cfg[58:0], mosi};
         end
     end

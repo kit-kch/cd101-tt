@@ -2,7 +2,7 @@
 
 module spi_tb();
 
-    reg clk, nss, mosi, rstn;
+    reg clk, nss, mosi, arstn;
 
     initial begin
         $dumpfile("build/sim/spi_tb.vcd");
@@ -18,9 +18,9 @@ module spi_tb();
     initial begin
         data_in = 60'h123456789ABCDEF;
 
-        rstn = 0;
+        arstn = 0;
         nss = 1'b1;
-        #50 rstn = 1;
+        #50 arstn = 1;
         #50 nss = 1'b0;
         #5;
         for (i = 0; i < 60; i = i + 1) begin
@@ -38,7 +38,7 @@ module spi_tb();
     wire trig;
     spi uut (
         .clk(clk),
-        .rstn(rstn),
+        .arstn(arstn),
         .mosi(mosi),
         .nss(nss),
 
