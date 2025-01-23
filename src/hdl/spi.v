@@ -8,12 +8,14 @@ module spi (
     output[7:0] adsr_ai, adsr_di, adsr_s, adsr_ri,
     output[11:0] osc_count,
     output[7:0] filter_a, filter_b,
-    output mute,
+    output progn,
     output trig
 );
 
-    // Mute during programming
-    assign mute = ~nss;
+    // Mute during programming. Note: This is sampled using the adsr clock,
+    // So to make sure there really is a reset, nss needs to be held for
+    // (1/main clk) * (512 * 512) (~12.5ms)
+    assign progn = ~nss;
     // FIXME: Should support trigger using SPI, but this should not mute...
     assign trig = 1'b0;
     

@@ -14,12 +14,16 @@ module synth_top(
     wire[7:0] adsr_ai, adsr_di, adsr_s, adsr_ri;
     wire[11:0] osc_count;
     wire[7:0] filter_a, filter_b;
-    wire spi_rst, spi_trig;
+    wire spi_progn, spi_trig;
+
+    // Can come from pin or SPI
+    wire merge_trig = trig | spi_trig;
+    wire merge_rstn = rstn & spi_progn;
 
     synth syn (
         .clk(clk),
-        .rstn(rstn),
-        .trig(trig),
+        .rstn(merge_rstn),
+        .trig(merge_trig),
         .adsr_ai(adsr_ai),
         .adsr_di(adsr_di),
         .adsr_s(adsr_s),
@@ -39,7 +43,7 @@ module synth_top(
         .adsr_ai(adsr_ai), .adsr_di(adsr_di), .adsr_s(adsr_s), .adsr_ri(adsr_ri),
         .osc_count(osc_count),
         .filter_a(filter_a), .filter_b(filter_b),
-        .mute(spi_rst),
+        .progn(spi_progn),
         .trig(spi_trig)
     );
 

@@ -17,19 +17,37 @@ module synth(
     wire clk_mod, clk_sample, clk_adsr, clk_mult;
     clkdiv clki (
         .clk(clk),
-        .rstn(rstn),
+        .rstn(rstn_fst_edge),
         .clk_mod(clk_mod), // 20480000 Hz
         .clk_sample(clk_sample), // 20480000/512=40000Hz
         .clk_adsr(clk_adsr), // 40000/512=78.125Hz
         .clk_mult(clk_mult)
     );
 
+    // Synchronize the trigger and resets to the clk_adsr clock, the slowest one
+    // Note: This means the signals need to be held for that long!
+    reg trig_reg1, trig_reg2;
+    reg rstn_reg1, rstn_reg2;
+    always @(posedge clk_adsr) begin
+        trig_reg1 <= trig;
+        rstn_reg1 <= rstn;
+        trig_reg2 <= trig_reg1;
+        rstn_reg2 <= rstn_reg1;
+    end
+
+    reg rstn_fst_reg1, rstn_fst_reg2;
+    // Falling edge
+    wire rstn_fst_edge = rstn_fst_reg1 | !rstn_fst_reg2;
+    always @(posedge clk) begin
+        rstn_fst_reg1 <= rstn;
+        rstn_fst_reg2 <= rstn_fst_reg1;
+    end
 
     wire[7:0] envelope;
     adsr adsri (
         .clk(clk_adsr),
-        .rstn(rstn),
-        .trig(trig),
+        .rstn(rstn_reg2),
+        .trig(trig_reg2),
         .ai(adsr_ai),
         .di(adsr_di),
         .s(adsr_s),
@@ -41,7 +59,7 @@ module synth(
     wire[7:0] osc_data;
     oscillator osci (
         .clk(clk_sample),
-        .rstn(rstn),
+        .rstn(rstn_reg2),
         .count_max(osc_count),
         .data(osc_data)
     );
@@ -73,7 +91,7 @@ module synth(
 
     dac daci (
         .clk(clk_mod),
-        .rstn(rstn),
+        .rstn(rstn_reg2),
         .din(filt_data),
         .dout(data)
     );
