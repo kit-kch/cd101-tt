@@ -15,7 +15,7 @@ module oscillator(
 
     always @(posedge clk) begin
         counter <= counter + 1;
-        if (counter >= count_max) begin
+        if (counter == count_max) begin
             counter <= 0;
             data_buf <= ! data_buf;
         end
