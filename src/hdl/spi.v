@@ -9,22 +9,40 @@ module spi (
     output[11:0] osc_count,
     output[7:0] filter_a, filter_b,
     output progn,
-    output trig
+    output reg trig
 );
 
     // Mute during programming. Note: This is sampled using the adsr clock,
     // So to make sure there really is a reset, nss needs to be held for
     // (1/main clk) * (512 * 512) (~12.5ms)
-    assign progn = ~nss;
-    // FIXME: Should support trigger using SPI, but this should not mute...
-    assign trig = 1'b0;
+    assign progn = first_bit_reg | nss;
     
+    reg first_bit;
+    reg first_bit_reg;
+    always @(posedge clk or posedge nss) begin
+        if (nss == 1'b1) begin
+            first_bit <= 1;
+            first_bit_reg <= 1;
+        end else begin
+            first_bit <= 0;
+            first_bit_reg <= first_bit;
+        end
+    end
+
     reg[59:0] cfg;
     always @(posedge clk or negedge arstn) begin
         if (arstn == 1'b0) begin
             cfg <= 0;
-        end else if (nss == 1'b0) begin
+        end else if (nss == 1'b0 && first_bit == 1'b0) begin
             cfg <= {cfg[58:0], mosi};
+        end
+    end
+
+    always @(posedge clk or negedge arstn) begin
+        if (arstn == 1'b0) begin
+            trig <= 0;
+        end else if (nss == 1'b0 && first_bit == 1'b1) begin
+            trig <= mosi;
         end
     end
 
