@@ -17,7 +17,7 @@ module synth(
     wire clk_mod, clk_sample, clk_adsr, clk_mult;
     clkdiv clki (
         .clk(clk),
-        .rstn(rstn_fst_edge),
+        .arstn(rstn_fst_edge),
         .clk_mod(clk_mod), // 20480000 Hz
         .clk_sample(clk_sample), // 20480000/512=40000Hz
         .clk_adsr(clk_adsr), // 40000/512=78.125Hz
@@ -36,7 +36,8 @@ module synth(
     end
 
     reg rstn_fst_reg1, rstn_fst_reg2;
-    // Falling edge
+    // Falling edge: Only reset the clock gen for a short time
+    // Clocks need to be running again for the sync resets to work
     wire rstn_fst_edge = rstn_fst_reg1 | !rstn_fst_reg2;
     always @(posedge clk) begin
         rstn_fst_reg1 <= rstn;

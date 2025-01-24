@@ -5,7 +5,7 @@
 SIM ?= icarus
 TOPLEVEL_LANG ?= verilog
 SRC_DIR = $(PWD)/../src
-PROJECT_SOURCES = hdl/dff.v \
+PROJECT_SOURCES = hdl/tff.v \
 	hdl/clkdiv.v \
 	hdl/oscillator.v \
 	hdl/adsr.v \

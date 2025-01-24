@@ -5,14 +5,13 @@
 
 module clkdiv(
     input clk,
-    input rstn,
+    input arstn,
     output clk_mod,
     output clk_sample,
     output clk_adsr,
     output clk_mult
 );
     wire[18:0] q;
-    wire[18:0] qn;
 
     assign q[0] = clk;
 
@@ -24,12 +23,10 @@ module clkdiv(
     genvar i;
     generate for (i = 0; i < 18; i = i+1) 
         begin: gen
-            dff inst (
+            tff inst (
                 .clk(q[i]),
-                .rstn(rstn),
-                .d(qn[i+1]),
-                .q(q[i+1]),
-                .qn(qn[i+1])
+                .arstn(arstn),
+                .q(q[i+1])
             );
         end
     endgenerate;

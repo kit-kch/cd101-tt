@@ -3,7 +3,7 @@
 ####################################################################################################
 TOP_MODULE = fpga_top
 DESIGN = fpga_top
-APP_VERILOG = dff.v \
+APP_VERILOG = tff.v \
 	clkdiv.v \
 	dac.v \
 	shift_mult8.v \
