@@ -16,7 +16,7 @@ module spi_tb();
     reg [60:0] data_in;
     integer i;
     initial begin
-        data_in = 61'h1123456789ABCDEF;
+        data_in = (60'hEFCD9AB78563412 << 1) | 61'b1;
 
         arstn = 0;
         nss = 1'b1;
@@ -24,11 +24,11 @@ module spi_tb();
         #50 nss = 1'b0;
         #5;
         for (i = 0; i < 61; i = i + 1) begin
-            #10 data_in = data_in << 1;
+            #10 data_in = data_in >> 1;
         end
         nss = 1'b1;
     end
-    assign mosi = data_in[60];
+    assign mosi = data_in[0];
     
 
 

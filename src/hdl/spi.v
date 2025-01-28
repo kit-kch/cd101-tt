@@ -34,7 +34,7 @@ module spi (
         if (arstn == 1'b0) begin
             cfg <= 0;
         end else if (nss == 1'b0 && first_bit == 1'b0) begin
-            cfg <= {cfg[58:0], mosi};
+            cfg <= {mosi, cfg[59:1]};
         end
     end
 
