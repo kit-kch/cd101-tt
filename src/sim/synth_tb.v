@@ -10,9 +10,9 @@ module synth_tb();
      * release: 1s => 128/80=2
      */
     localparam ADSR_AI = 64;
-    localparam ADSR_DI = 16;
-    localparam ADSR_S = 128;
-    localparam ADSR_RI = 2;
+    localparam ADSR_DI = -10;
+    localparam ADSR_S = 125;
+    localparam ADSR_RI = -4;
     localparam PULSE_PERIOD_2 = 66; // 303 Hz
     /* https://dsp.stackexchange.com/a/54088 (3)
      * a = -y + sqrt(y^2 + 2y)
