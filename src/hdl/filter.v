@@ -13,7 +13,8 @@
 
 module filter(
     input clk,
-    input clk_slow,
+    input clk_sample,
+    input mult_rst,
     input[15:0] din,
     output[15:0] dout,
     input[7:0] a,
@@ -23,14 +24,14 @@ module filter(
     wire[15:0] m2o;
 
     reg[15:0] dout_reg;
-    always @(posedge clk_slow) begin
+    always @(posedge clk_sample) begin
         dout_reg <= m1o + m2o;
     end
     assign dout = dout_reg;
 
     shift_mult16 m1(
         .clk(clk),
-        .clk_slow(clk_slow),
+        .mult_rst(mult_rst),
         .a(dout_reg),
         .b(a),
         .y(m1o)
@@ -38,7 +39,7 @@ module filter(
 
     shift_mult16 m2(
         .clk(clk),
-        .clk_slow(clk_slow),
+        .mult_rst(mult_rst),
         .a(din),
         .b(b),
         .y(m2o)

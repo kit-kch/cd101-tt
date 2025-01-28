@@ -13,13 +13,13 @@ module synth(
     input[7:0] filter_a, filter_b,
     output data
 );
-
-    wire clk_mod, clk_sample, clk_adsr, clk_mult;
+    wire clk_mod, clk_sample, clk_sample_x2, clk_adsr, clk_mult;
     clkdiv clki (
         .clk(clk),
         .arstn(rstn_fst_edge),
         .clk_mod(clk_mod), // 20480000 Hz
         .clk_sample(clk_sample), // 20480000/512=40000Hz
+        .clk_sample_x2(clk_sample_x2),
         .clk_adsr(clk_adsr), // 40000/512=78.125Hz
         .clk_mult(clk_mult)
     );
@@ -56,7 +56,6 @@ module synth(
         .envelope(envelope)
     );
 
-
     wire[7:0] osc_data;
     oscillator osci (
         .clk(clk_sample),
@@ -65,10 +64,12 @@ module synth(
         .data(osc_data)
     );
 
+    // Periodic reset for multipliers. Quite a hack, see docs for details
+    wire mult_rst = clk_sample & ~clk_sample_x2;
     wire[15:0] adsr_data;
     shift_mult8 smul8 (
-        .clk(clk),
-        .clk_slow(clk_sample),
+        .clk(clk_mult),
+        .mult_rst(mult_rst),
         .a(osc_data),
         .b(envelope),
         .y(adsr_data)
@@ -83,7 +84,8 @@ module synth(
     wire[15:0] filt_data;
     filter filt (
         .clk(clk_mult),
-        .clk_slow(clk_sample),
+        .clk_sample(clk_sample),
+        .mult_rst(mult_rst),
         .din(adsr_data_reg),
         .dout(filt_data),
         .a(filter_a),

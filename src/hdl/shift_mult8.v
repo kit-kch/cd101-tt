@@ -1,6 +1,6 @@
 module shift_mult8 (
     input clk,
-    input clk_slow,
+    input mult_rst,
     input[7:0] a,
     input[7:0] b,
     output[15:0] y
@@ -8,8 +8,8 @@ module shift_mult8 (
 
     // Latch register for B
     reg[7:0] b_latched;
-    always @(posedge clk) begin
-        if (clk_slow == 1'b1)
+    always @(negedge clk) begin
+        if (mult_rst == 1'b1)
             b_latched <= b;
         else
             b_latched <= {1'b0, b_latched[7:1]};
@@ -23,8 +23,8 @@ module shift_mult8 (
     // Second op: Shifted
     wire[7:0] sum_in2 = {y_buf[16:9]};
     
-    always @(posedge clk or posedge clk_slow) begin
-        if (clk_slow == 1'b1) begin
+    always @(negedge clk or posedge mult_rst) begin
+        if (mult_rst == 1'b1) begin
             y_buf <= 0;
         end else begin
             y_buf[16:8] <= sum_in1 + sum_in2;
