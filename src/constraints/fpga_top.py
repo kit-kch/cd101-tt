@@ -1,6 +1,7 @@
 ctx.addClock("pll.clock_in", 48)
 ctx.addClock("pll.clock_out", 20.5)
 ctx.addClock("stop.syn.clki.q[0]", 20.5)
+ctx.addClock("stop.syn.clki.q[8]", 0.08)
 ctx.addClock("stop.syn.clki.q[9]", 0.04)
 ctx.addClock("stop.syn.clki.q[18]", 20.5 / (512 * 512))
 ctx.addClock("spi_clk", 1)
