@@ -2,7 +2,7 @@
 
 module filter_tb();
 
-    reg clk, clk_slow;
+    reg clk, clk_slow, clk_slow_x2;
     reg[15:0] din;
     wire[15:0] dout;
     localparam A = 8'd101; // * 2^-8
@@ -14,10 +14,14 @@ module filter_tb();
 
         clk = 1;
         clk_slow = 1;
+        clk_slow_x2 = 1;
         #100000 $finish;
     end
     always #5 clk = ~clk;
     always #80 clk_slow = ~clk_slow;
+    always #40 clk_slow_x2 = ~clk_slow_x2;
+
+    wire mult_rst = clk_slow & ~clk_slow_x2;
 
     initial begin
         din = 16'h0000;
@@ -27,7 +31,8 @@ module filter_tb();
 
     filter uut (
         .clk(clk),
-        .clk_slow(clk_slow),
+        .clk_sample(clk_slow),
+        .mult_rst(mult_rst),
         .din(din),
         .dout(dout),
         .a(A),

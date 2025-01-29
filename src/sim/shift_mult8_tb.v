@@ -2,7 +2,7 @@
 
 module shift_mult8_tb();
 
-    reg clk, clk_slow;
+    reg clk, clk_slow, clk_slow_x2;
 
     localparam A = 8'hFF;
     localparam B = 8'h80;
@@ -13,15 +13,19 @@ module shift_mult8_tb();
 
         clk = 1;
         clk_slow = 1;
+        clk_slow_x2 = 1;
         #5000 $finish;
     end
     always #5 clk = ~clk;
     always #80 clk_slow = ~clk_slow;
+    always #40 clk_slow_x2 = ~clk_slow_x2;
+
+    wire mult_rst = clk_slow & ~clk_slow_x2;
 
     wire[15:0] y;
     shift_mult8 uut (
         .clk(clk),
-        .clk_slow(clk_slow),
+        .mult_rst(mult_rst),
         .a(A),
         .b(B),
         .y(y)
