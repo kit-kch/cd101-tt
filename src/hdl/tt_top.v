@@ -16,11 +16,6 @@ module tt_um_example (
     input  wire       rst_n     // reset_n - low to reset
 );
 
-uio[0] - CS
-uio[1] - MOSI
-//uio[2] - MISO
-uio[3] - SCK
-
     wire trig, data;
     wire spi_clk, spi_mosi, spi_nss;
 
