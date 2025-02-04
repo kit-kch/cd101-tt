@@ -19,7 +19,7 @@ module clkdiv(
     assign clk_mod = q[0];
     assign clk_sample = q[9];
     assign clk_sample_x2 = q[8];
-    assign clk_adsr = q[18];
+    assign clk_adsr = q[16];
     assign clk_mult = q[5];
 
     genvar i;
