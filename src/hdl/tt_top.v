@@ -16,16 +16,29 @@ module tt_um_example (
     input  wire       rst_n     // reset_n - low to reset
 );
 
+uio[0] - CS
+uio[1] - MOSI
+//uio[2] - MISO
+uio[3] - SCK
+
     wire trig, data;
     wire spi_clk, spi_mosi, spi_nss;
+
+    // BTN0 of https://digilent.com/reference/pmod/pmodbtn/start Connect to in Port
     assign trig = ui_in[0];
-    assign spi_clk = ui_in[1];
-    assign spi_mosi = ui_in[2];
-    assign spi_nss = ui_in[3];
+
+    // Bidir PMOD, TOP row: https://tinytapeout.com/specs/pinouts/
+    // Note that we use this instead for SPI master: https://www.adafruit.com/product/2264
+    // It's not PMOD compatible anyway
+    assign spi_nss = uio_in[0];
+    assign spi_mosi = uio_in[1];
+    assign spi_clk = uio_in[3];
+
+    // Compatible with this PMOD: https://github.com/MichaelBell/tt-audio-pmod, Out port
     assign uo_out[7] = data;
 
     // List all unused inputs to prevent warnings
-    wire _unused = &{ena, ui_in[7:4], uio_in[7:0], 1'b0};
+    wire _unused = &{ena, ui_in[7:1], uio_in[7:4], uio_in[2], 1'b0};
 
     // All output pins must be assigned. If not used, assign to 0.
     assign uio_out = 0;
