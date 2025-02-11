@@ -1,6 +1,9 @@
 module shift_mult8 (
     input clk,
+    // We want to sample this sync and async
+    // verilator lint_off SYNCASYNCNET
     input mult_rst,
+    // verilator lint_on SYNCASYNCNET
     input[7:0] a,
     input[7:0] b,
     output[15:0] y
