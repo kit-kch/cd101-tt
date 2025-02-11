@@ -23,7 +23,7 @@ module shift_mult8 (
     // Second op: Shifted
     wire[7:0] sum_in2 = {y_buf[15:8]};
     
-    always @(negedge clk or posedge mult_rst) begin
+    always @(negedge clk) begin
         if (mult_rst == 1'b1) begin
             y_buf <= 0;
         end else begin
