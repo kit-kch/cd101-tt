@@ -8,6 +8,12 @@ module shift_mult8 (
 
     // Latch register for B
     reg[7:0] b_latched;
+    always @(negedge clk) begin
+        if (mult_rst == 1'b1)
+            b_latched <= b;
+        else
+            b_latched <= {1'b0, b_latched[7:1]};
+    end
 
     wire b_bit = b_latched[0];
     wire[7:0] sum_in1 = a & {8{b_bit}};
@@ -20,11 +26,9 @@ module shift_mult8 (
     always @(negedge clk) begin
         if (mult_rst == 1'b1) begin
             y_buf <= 0;
-            b_latched <= b;
         end else begin
             y_buf[15:7] <= sum_in1 + sum_in2;
             y_buf[6:0] <= y_buf[7:1];
-            b_latched <= {1'b0, b_latched[7:1]};
         end
     end
 
