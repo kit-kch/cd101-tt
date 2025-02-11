@@ -24,10 +24,10 @@ module adsr(
 
     always @(*) begin
         case (state)
-            STATE_A: sum_op <= {1'b0, ai};
-            STATE_D: sum_op <= {1'b1, di};
-            STATE_R: sum_op <= {1'b1, ri};
-            default: sum_op <= 0;
+            STATE_A: sum_op = {1'b0, ai};
+            STATE_D: sum_op = {1'b1, di};
+            STATE_R: sum_op = {1'b1, ri};
+            default: sum_op = 0;
         endcase
     end
 
