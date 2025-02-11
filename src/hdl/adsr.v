@@ -10,10 +10,7 @@ module adsr(
     input[7:0] ai, di, s, ri,
     output reg[7:0] envelope
 );
-    // We ready this sync and async, that should be ok...
-    // verilator lint_off SYNCASYNCNET
     reg[2:0] state;
-    // verilator lint_on SYNCASYNCNET
 
     localparam STATE_IDLE = 3'd0;
     localparam STATE_A = 3'd1;
@@ -25,7 +22,7 @@ module adsr(
     reg[8:0] sum_op;
     assign next_sum = {1'b0, envelope} + sum_op;
 
-    always @(state) begin
+    always @(*) begin
         case (state)
             STATE_A: sum_op <= {1'b0, ai};
             STATE_D: sum_op <= {1'b1, di};
