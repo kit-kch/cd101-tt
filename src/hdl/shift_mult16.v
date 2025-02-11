@@ -20,17 +20,20 @@ module shift_mult16 #(
     wire[15:0] sum_in1 = a & {16{b_bit}};
 
     // Adder
-    reg[16:0] y_buf;
+    reg[15:0] y_buf;
     // Second op: Shifted
-    wire[15:0] sum_in2 = {y_buf[16:1]};
+    wire[15:0] sum_in2 = {y_buf[15:0]};
+
+    wire[16:0] sum;
+    assign sum = sum_in1 + sum_in2;
     
     always @(negedge clk or posedge mult_rst) begin
         if (mult_rst == 1'b1)
             y_buf <= 0;
         else
-            y_buf <= sum_in1 + sum_in2;
+            y_buf <= sum[16:1];
     end
 
-    assign y = y_buf[16:1];
+    assign y = y_buf[15:0];
 
 endmodule

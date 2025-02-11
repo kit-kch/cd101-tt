@@ -18,16 +18,16 @@ module adsr(
     localparam STATE_S = 3'd3;
     localparam STATE_R = 3'd4;
 
-    wire[9:0] next_sum;
+    wire[8:0] next_sum;
     reg[8:0] sum_op;
     assign next_sum = {1'b0, envelope} + sum_op;
 
     always @(state) begin
         case (state)
-            STATE_A: sum_op = {1'b0, ai};
-            STATE_D: sum_op = {1'b1, di};
-            STATE_R: sum_op = {1'b1, ri};
-            default: sum_op = 0;
+            STATE_A: sum_op <= {1'b0, ai};
+            STATE_D: sum_op <= {1'b1, di};
+            STATE_R: sum_op <= {1'b1, ri};
+            default: sum_op <= 0;
         endcase
     end
 

@@ -19,19 +19,19 @@ module shift_mult8 (
     wire[7:0] sum_in1 = a & {8{b_bit}};
 
     // Adder
-    reg[16:0] y_buf;
+    reg[15:0] y_buf;
     // Second op: Shifted
-    wire[7:0] sum_in2 = {y_buf[16:9]};
+    wire[7:0] sum_in2 = {y_buf[15:8]};
     
     always @(negedge clk or posedge mult_rst) begin
         if (mult_rst == 1'b1) begin
             y_buf <= 0;
         end else begin
-            y_buf[16:8] <= sum_in1 + sum_in2;
-            y_buf[7:0] <= y_buf[8:1];
+            y_buf[15:7] <= sum_in1 + sum_in2;
+            y_buf[6:0] <= y_buf[7:1];
         end
     end
 
-    assign y = y_buf[16:1];
+    assign y = y_buf[15:0];
 
 endmodule

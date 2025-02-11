@@ -12,7 +12,7 @@ module clkdiv(
     output clk_adsr,
     output clk_mult
 );
-    wire[18:0] q;
+    wire[16:0] q;
 
     assign q[0] = clk;
 
@@ -23,7 +23,7 @@ module clkdiv(
     assign clk_mult = q[5];
 
     genvar i;
-    generate for (i = 0; i < 18; i = i+1) 
+    generate for (i = 0; i < 16; i = i+1) 
         begin: gen
             tff inst (
                 .clk(q[i]),
