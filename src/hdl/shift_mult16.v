@@ -9,12 +9,6 @@ module shift_mult16 #(
 
     // Latch register for B
     reg[B_WIDTH-1:0] b_latched;
-    always @(negedge clk) begin
-        if (mult_rst == 1'b1)
-            b_latched <= b;
-        else
-            b_latched <= {1'b0, b_latched[B_WIDTH-1:1]};
-    end
 
     wire b_bit = b_latched[0];
     wire[15:0] sum_in1 = a & {16{b_bit}};
@@ -25,10 +19,13 @@ module shift_mult16 #(
     wire[15:0] sum_in2 = {y_buf[15:0]};
     
     always @(negedge clk) begin
-        if (mult_rst == 1'b1)
+        if (mult_rst == 1'b1) begin
             y_buf <= 0;
-        else
+            b_latched <= b;
+        end else begin
             y_buf <= (sum_in1 + sum_in2) >> 1;
+            b_latched <= {1'b0, b_latched[B_WIDTH-1:1]};
+        end;
     end
 
     assign y = y_buf[15:0];
