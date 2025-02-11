@@ -25,7 +25,7 @@ module oscillator(
     end
 
 
-    always @(data_buf) begin
+    always @(*) begin
         if (data_buf == 0) begin
             data = 0;
         end else begin
