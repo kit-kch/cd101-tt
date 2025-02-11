@@ -24,7 +24,7 @@ module shift_mult16 #(
     // Second op: Shifted
     wire[15:0] sum_in2 = {y_buf[15:0]};
     
-    always @(negedge clk) begin
+    always @(negedge clk or posedge mult_rst) begin
         if (mult_rst == 1'b1)
             y_buf <= 0;
         else
