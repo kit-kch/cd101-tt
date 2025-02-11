@@ -10,7 +10,10 @@ module adsr(
     input[7:0] ai, di, s, ri,
     output reg[7:0] envelope
 );
+    // We ready this sync and async, that should be ok...
+    // verilator lint_off SYNCASYNCNET
     reg[2:0] state;
+    // verilator lint_on SYNCASYNCNET
 
     localparam STATE_IDLE = 3'd0;
     localparam STATE_A = 3'd1;

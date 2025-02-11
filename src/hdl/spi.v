@@ -3,7 +3,10 @@ module spi (
     input clk,
     input arstn,
     input mosi,
+    // We want to sample this sync and async
+    // verilator lint_off SYNCASYNCNET
     input nss,
+    // verilator lint_on SYNCASYNCNET
 
     output[7:0] adsr_ai, adsr_di, adsr_s, adsr_ri,
     output[11:0] osc_count,
