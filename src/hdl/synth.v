@@ -11,8 +11,38 @@ module synth(
     input[7:0] adsr_ai, adsr_di, adsr_s, adsr_ri,
     input[11:0] osc_count,
     input[7:0] filter_a, filter_b,
+`ifdef USE_CFG_LATCH
+    input latch_cfg,
+`endif
     output data
 );
+
+`ifdef USE_CFG_LATCH
+    reg[7:0] adsr_ai_l, adsr_di_l, adsr_s_l, adsr_ri_l;
+    reg[11:0] osc_count_l;
+    reg[7:0] filter_a_l, filter_b_l;
+
+    always @(posedge clk_adsr) begin
+        if (latch_cfg == 1'b1) begin
+	    adsr_ai_l <= adsr_ai;
+	    adsr_di_l <= adsr_di;
+	    adsr_s_l <= adsr_s;
+	    adsr_ri_l <= adsr_ri;
+	    osc_count_l <= osc_count;
+	    filter_a_l <= filter_a;
+	    filter_b_l <= filter_b;
+        end
+    end
+`else
+    wire[7:0] adsr_ai_l = adsr_ai;
+    wire[7:0] adsr_di_l = adsr_di;
+    wire[7:0] adsr_s_l = adsr_s;
+    wire[7:0] adsr_ri_l = adsr_ri;
+    wire[11:0] osc_count_l = osc_count;
+    wire[7:0] filter_a_l = filter_a;
+    wire[7:0] filter_b_l = filter_b;
+`endif
+
     wire clk_mod, clk_sample, clk_sample_x2, clk_adsr, clk_mult;
     clkdiv clki (
         .clk(clk),
@@ -49,10 +79,10 @@ module synth(
         .clk(clk_adsr),
         .rstn(rstn_reg2),
         .trig(trig_reg2),
-        .ai(adsr_ai),
-        .di(adsr_di),
-        .s(adsr_s),
-        .ri(adsr_ri),
+        .ai(adsr_ai_l),
+        .di(adsr_di_l),
+        .s(adsr_s_l),
+        .ri(adsr_ri_l),
         .envelope(envelope)
     );
 
@@ -60,7 +90,7 @@ module synth(
     oscillator osci (
         .clk(clk_sample),
         .rstn(rstn_reg2),
-        .count_max(osc_count),
+        .count_max(osc_count_l),
         .data(osc_data)
     );
 
@@ -88,8 +118,8 @@ module synth(
         .mult_rst(mult_rst),
         .din(adsr_data_reg),
         .dout(filt_data),
-        .a(filter_a),
-        .b(filter_b)
+        .a(filter_a_l),
+        .b(filter_b_l)
     );
 
     dac daci (

@@ -18,8 +18,12 @@ module spi (
     // Mute during programming. Note: This is sampled using the adsr clock,
     // So to make sure there really is a reset, nss needs to be held for
     // (1/main clk) * (512 * 128) (~3.125ms)
+`ifdef USE_SPI_LATCH
     assign progn = first_bit_reg | nss;
-    
+`else
+    assign progn = nss;
+`endif
+
     reg first_bit;
     reg first_bit_reg;
     always @(posedge clk or posedge nss) begin
