@@ -18,11 +18,7 @@ module synth_top(
 
     // Can come from pin or SPI
     wire merge_trig = trig | spi_trig;
-`ifdef USE_CFG_LATCH
     wire merge_rstn = rstn & spi_progn;
-`else
-    wire merge_rstn = rstn;
-`endif
 
     synth syn (
         .clk(clk),
@@ -35,9 +31,6 @@ module synth_top(
         .osc_count(osc_count),
         .filter_a(filter_a),
         .filter_b(filter_b),
-`ifdef USE_CFG_LATCH
-        .latch_cfg(spi_progn),
-`endif
         .data(data)
     );
 
