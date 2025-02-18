@@ -13,6 +13,7 @@
 
 module filter(
     input clk,
+    input rstn,
     input clk_sample,
     input mult_rst,
     input[15:0] din,
@@ -25,7 +26,10 @@ module filter(
 
     reg[15:0] dout_reg;
     always @(posedge clk_sample) begin
-        dout_reg <= m1o + m2o;
+        if (rstn == 1'b0)
+            dout_reg <= 0;
+        else
+            dout_reg <= m1o + m2o;
     end
     assign dout = dout_reg;
 
