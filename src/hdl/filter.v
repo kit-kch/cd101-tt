@@ -25,7 +25,7 @@ module filter(
     wire[15:0] m2o;
 
     reg[15:0] dout_reg;
-    always @(posedge clk_sample) begin
+    always @(posedge clk_sample or negedge rstn) begin
         if (rstn == 1'b0)
             dout_reg <= 0;
         else

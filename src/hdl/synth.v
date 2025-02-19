@@ -84,7 +84,7 @@ module synth(
     wire[15:0] filt_data;
     filter filt (
         .clk(clk_mult),
-        .rstn(rstn_reg2),
+        .rstn(rstn),
         .clk_sample(clk_sample),
         .mult_rst(mult_rst),
         .din(adsr_data_reg),
