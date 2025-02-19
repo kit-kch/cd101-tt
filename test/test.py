@@ -64,6 +64,65 @@ class CD101SPI:
 
         await self.__write(data)
 
+import numpy as np
+from scipy.signal import butter, lfilter
+import wave
+import sys
+
+class AudioFilter:
+    def __init__(self):
+        order = 5
+        nyquist = 0.5 * 24000000
+        high = 20000 / nyquist
+        self.b, self.a = butter(order, high, btype='low', analog=False)
+        self.z = np.zeros(self.b.size - 1)
+
+        self.wf = wave.open("output.wav", 'wb')
+        self.rwf = wave.open("golden.wav", 'rb')
+        self.wf.setnchannels(1)
+        self.wf.setsampwidth(2)
+        self.wf.setframerate(48000)
+
+    # Filter by chunks of 2000 samples (float)
+    def __filter(self, data):
+        y, self.z = lfilter(self.b, self.a, data, zi = self.z)
+        return y
+
+    # Filter by chunks of 2000 samples (float)
+    def process(self, data):
+        filtered = self.__filter(data)
+        resampled = [filtered[249], filtered[749], filtered[1249], filtered[1749]]
+
+        # Convert to int16
+        resampled = np.clip(resampled, 0, 1)
+        resampled_i16 = (resampled * np.iinfo(np.int16).max).astype(np.int16)
+
+        # Save to wav
+        self.wf.writeframes(resampled_i16.tobytes())
+
+        # Compare to reference
+        refdata = self.rwf.readframes(4)
+        #assert resampled_i16.tobytes() == refdata, "Data does not match reference"
+
+    def finish(self):
+        self.wf.close()
+
+async def collect_output(dut):
+    af = AudioFilter()
+    
+    buf = np.zeros(2000)
+    # 1 second of data
+    for i in range(1, 24000001):
+        sample = dut.uo_out[7].value.integer
+        if (sample != 1 and sample != 0):
+            sample = 0
+        buf[i % 2000] = sample
+        if (i % 2000 == 1999):
+            af.process(buf)
+        await ClockCycles(dut.clk, 1)
+
+    af.finish()
+
 @cocotb.test()
 async def test_project(dut):
     dut._log.info("Start")
@@ -88,26 +147,16 @@ async def test_project(dut):
 
     dut._log.info("Testing Audio Generation")
     spi = CD101SPI(dut)
-    
-    config = SPIConfig(64, -10, 125, -4, 66, 101, 255-101)
+
+    config = SPIConfig(10, -1, 145, -1, 153, 102, 153)
     await spi.set_config(False, config)
+    await ClockCycles(dut.clk, 10)
     
+    receiver = cocotb.start_soon(collect_output(dut))
     await ClockCycles(dut.clk, 10)
     await spi.set_trigger(True)
+    # Wait 0.5s
+    await ClockCycles(dut.clk, 12000000)
+    await spi.set_trigger(False)
 
-    # FIXME: Check output. This is really slow...
-    await ClockCycles(dut.clk, 2400000)
-
-    # Set the input values you want to test
-#    dut.ui_in.value = 20
-#    dut.uio_in.value = 30
-
-    # Wait for one clock cycle to see the output values
-#    await ClockCycles(dut.clk, 1)
-
-    # The following assersion is just an example of how to check the output values.
-    # Change it to match the actual expected output of your module:
-#    assert dut.uo_out.value == 50
-
-    # Keep testing the module by changing the input values, waiting for
-    # one or more clock cycles, and asserting the expected output values.
+    await receiver
