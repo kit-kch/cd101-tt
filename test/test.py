@@ -102,7 +102,7 @@ class AudioFilter:
 
         # Compare to reference
         refdata = self.rwf.readframes(4)
-        #assert resampled_i16.tobytes() == refdata, "Data does not match reference"
+        assert resampled_i16.tobytes() == refdata, "Data does not match reference"
 
     def finish(self):
         self.wf.close()
