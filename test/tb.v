@@ -6,12 +6,12 @@
 */
 module tb ();
 
-  // Dump the signals to a VCD file. You can view it with gtkwave or surfer.
-  initial begin
-    $dumpfile("tb.vcd");
-    $dumpvars(0, tb);
-    #1;
-  end
+  // Don't dump the signals to a VCD file, it's too much data.
+  // initial begin
+  //   $dumpfil  e("tb.vcd");
+  //   $dumpvars(0, tb);
+  //   #1;
+  // end
 
   // Wire up the inputs and outputs:
   reg clk;
