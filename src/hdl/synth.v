@@ -5,7 +5,9 @@
 module synth(
     // 20480000 Hz
     input clk,
+    // verilator lint_off SYNCASYNCNET
     input rstn,
+    // verilator lint_on SYNCASYNCNET
     input trig,
     // Configuration
     input[7:0] adsr_ai, adsr_di, adsr_s, adsr_ri,
