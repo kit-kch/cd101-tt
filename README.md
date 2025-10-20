@@ -64,7 +64,7 @@ Then connect the modules as shown below:
   * `teros-technology.teroshdl`
 * Open `src/hdl/oscillator.v`
 * Press `Schematic Viewer` button on the top-right of the editor window.
-  [!](oscillator_schematic.svg)
+  ![](oscillator_schematic.svg)
 * You can also view FSMs: Open `src/hdl/adsr.v`
 * Click the `State machine viewer` in the same toolbar.
   ![](adsr_fsm.svg)
