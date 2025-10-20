@@ -25,9 +25,9 @@ module tt_um_kch_cd101 (
     // Bidir PMOD, TOP row: https://tinytapeout.com/specs/pinouts/
     // Note that we use this instead for SPI master: https://www.adafruit.com/product/2264
     // It's not PMOD compatible anyway
-    assign spi_nss = uio_in[0];
-    assign spi_mosi = uio_in[1];
-    assign spi_clk = uio_in[3];
+    assign spi_nss = uio_in[0];  // D2
+    assign spi_mosi = uio_in[1]; // D1
+    assign spi_clk = uio_in[3];  // D0
 
     // Compatible with this PMOD: https://github.com/MichaelBell/tt-audio-pmod, Out port
     assign uo_out[7] = data;
