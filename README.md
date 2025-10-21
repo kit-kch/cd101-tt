@@ -42,6 +42,7 @@ Yosys 0.48+77 (git sha1 eac2294ca, clang++ 18.1.8 -fPIC -O3)
 
 To test the design, you will need to connect an external low pass and a button module.
 Use these boards:
+* [UPduino v3.1 ICE40 FPGA Board](https://tinyvision.ai/products/fpga-development-board-upduino-v3-1?srsltid=AfmBOopawfVUNNePeYI-f1b1VEYlATlFLqBscarYBrJVQ_N_hbYVzSEj)
 * [Tiny Tapeout Audio PMOD](https://github.com/MichaelBell/tt-audio-pmod)
 * [Digilent Pmod BTN](https://digilent.com/reference/pmod/pmodbtn/start?srsltid=AfmBOorq1TLTMuljiMuctmZYIX58brU7r9eTV9q9wnxmNRfxH62lrLGN)
 
