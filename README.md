@@ -54,6 +54,8 @@ Then connect the modules as shown below:
 ### Starting VSCode
 
 * Open Visual Studio Code
+* Install `Dev Containers` extension
+* If you're using podman, configure `Dev Containers` to use `podman` instead of `docker` executable
 * Press CTRL+SHIFT+P, Select "Dev Containers: Attach to Running Container"
 * Select `fpga`
 * Select `File` => `Open Folder` and select the checked out `cd101-tt` folder.
@@ -92,15 +94,17 @@ make -f FPGA.mk upload
 ```
 To program the FPGA Flash (permanently):
 ```bash
-make -f FPGA.mk upload
+make -f FPGA.mk upload-flash
 ```
+
+Note: This may not work in Visual Studio Code. Try running directly in a terminal, after running `distrobox enter fpga`.
 
 ### User Software
 
 Once the FPGA is programmed, you can run the [user software](https://github.com/kit-kch/cd101-plugin).
 Please note:
-* You may have to press the reset button once (BTN0) to ensure proper reset.
-* You will not hear any sound when pressing the trigger button unless you have run the user software at least once.
+* You may have to press the reset button once (BTN1) to ensure proper reset.
+* You will not hear any sound when pressing the trigger button (BTN0) unless you have run the user software at least once.
   This is required to set the parameters for the synth.
 
 Here's an example using the CLI Tool:
@@ -111,6 +115,8 @@ Refer to the [user software](https://github.com/kit-kch/cd101-plugin) for detail
 
 You can also run the LV2 plugin with an DAW.
 An example Ardour project is provided in the [cd101-docs](https://github.com/kit-kch/cd101-docs) repository.
+
+![](ardour_example.png)
 
 ## Tiny Tapeout ASIC Tests
 
